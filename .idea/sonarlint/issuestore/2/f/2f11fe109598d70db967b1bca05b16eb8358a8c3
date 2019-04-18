@@ -1,0 +1,20 @@
+
+isquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(É»öó8ûİÑ”£-
+V
+squid:S106-"9Replace this use of System.out or System.err by a logger.(·«ñ 8ßƒ†”£-
+ysquid:S2159""VRemove this call to "equals"; comparisons between unrelated types always return false.(™ºÅùÿÿÿÿ8˜¤Ò”£-
+rsquid:S1450
+"URemove the "result" field and declare it as a local variable in the relevant methods.(ÿ”¢8¦¤ÿ£-
+tsquid:S2159"VRemove this call to "equals"; comparisons between unrelated types always return false.(Õ¿ÿ±8˜¤Ò”£-
+nsquid:S1149	"PReplace the synchronized class "Stack" by an unsynchronized one such as "Deque".(Àåš·8¿¡¡£-
+Dsquid:S2129"!Remove this "Integer" constructor(çâìûÿÿÿÿ8Ğö„”£-
+[
+squid:S106/"9Replace this use of System.out or System.err by a logger.(òşÚúøÿÿÿÿ8ßƒ†”£-
+ysquid:S2159$"VRemove this call to "equals"; comparisons between unrelated types always return false.(…®“Áüÿÿÿÿ8˜¤Ò”£-
+dsquid:S1075"ARefactor your code to get this URI from a customizable parameter.(ˆù üúÿÿÿÿ8˜÷ú“£-
+Isquid:S2201'",The return value of "toString" must be used.(ƒÑá%8ûİÑ”£-
+ysquid:S2159 "VRemove this call to "equals"; comparisons between unrelated types always return false.(íæƒ«øÿÿÿÿ8˜¤Ò”£-
+tsquid:S1450"VRemove the "scanner" field and declare it as a local variable in the relevant methods.(Ù‘Ğ8˜÷ú“£-
+>squid:S2129
+"!Remove this "Integer" constructor(ÿ”¢8“¸¿“£-
+>squid:S2129" Remove this "String" constructor(Û­øÄ8Œµ”£-
