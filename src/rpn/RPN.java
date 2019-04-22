@@ -6,8 +6,10 @@ import java.util.*;
 public class RPN {
 
     private Stack <Character> stack = new Stack<Character>();
+    private Stack <Integer> intStack = new Stack<Integer>();
     private static Queue <Character> output = new LinkedList<>();
     private Scanner scanner;
+    private static Integer result = 0;
     String path = new String("C:/Users/Dominika/source/repos/onp/src/files/calculations.txt");
 
     private void convert() throws IOException {
@@ -74,6 +76,31 @@ public class RPN {
         } else return false;
     }
 
+    private void calculate() {
+        for (char c : output) {
+            if (Character.isDigit(c)) {
+                intStack.push(Integer.parseInt(String.valueOf(c)));
+            } else if (isOperand(c)) {
+                int a = intStack.peek();
+                intStack.pop();
+                int b = intStack.peek();
+                intStack.pop();
+                int r = 0;
+                if (c == '+') {
+                    r = b + a;
+                } else if (c == '-') {
+                    r = b - a;
+                } else if (c == '*') {
+                    r = b * a;
+                } else if (c == '/') {
+                    r = b / a;
+                }
+                intStack.push(r);
+            }
+        }
+        result = intStack.peek();
+    }
+
     public static void main(String[] args) throws IOException {
         RPN rpn = new RPN();
         rpn.convert();
@@ -81,5 +108,7 @@ public class RPN {
         while(iterator.hasNext()){
             System.out.print((Character) iterator.next());
         }
+        rpn.calculate();
+        System.out.println("\n result is " + result);
     }
 }
