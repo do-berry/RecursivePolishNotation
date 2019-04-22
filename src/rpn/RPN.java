@@ -1,58 +1,85 @@
 package rpn;
 
 import java.io.*;
-import java.util.Scanner;
-import java.util.Stack;
+import java.util.*;
 
 public class RPN {
 
-    private Stack stack = new Stack();
-    private Integer result = new Integer(-1);
+    private Stack <Character> stack = new Stack<Character>();
+    private static Queue <Character> output = new LinkedList<>();
     private Scanner scanner;
+    String path = new String("C:/Users/Dominika/source/repos/onp/src/files/calculations.txt");
 
-    private void calculate() throws IOException {
-        // opening
-        scanner = new Scanner(new File("C:/Users/Dominika/source/repos/onp/src/files/calculations.txt"));
-
-        String read = new String("");
-        Integer x = new Integer(-1);
-
-        // if file exists, read a char
-        while (c != null) {
-            c = scanner.next().charAt(0);
-            /* if char is a digit -> push
-               if char is an operand -> pop previous and get next argument
-               and push calculated result */
-            if (Character.isDigit(read)) {
-                stack.push(read);
-            } else {
-                //x = (Integer) Character.getNumericValue((Character) stack.lastElement());
-                if (read.equals('+')) {
-                    x += Integer.parseInt(scanner.next());
-                } else if (read.equals('-')) {
-                    x -= Integer.parseInt(scanner.next());
-                } else if (read.equals('*')) {
-                    x *= Integer.parseInt(scanner.next());
-                } else if (read.equals('/')) {
-                    x /= Integer.parseInt(scanner.next());
+    private void convert() throws IOException {
+        scanner = new Scanner(new File(path));
+        char read = Character.MIN_VALUE;
+        String line;
+        while (scanner.hasNext()) {
+            line = scanner.next();
+            for (int i = 0; i < line.length(); i++) {
+                read = line.charAt(i);
+                if (Character.isDigit(read)) {
+                    output.add(read);
+                } else if (isFunction(read)) {
+                    stack.push(read);
+                } else if (isOperand(read)) {
+                    checkOperand(read);
                 }
-                Integer.toString(x);
-                stack.push((char)x);
             }
         }
-        result = (Integer) stack.pop();
-        if (result == -1) {
-            System.out.println("Error: nothing happened");
-        } else {
-            System.out.println("Result: " + result);
+        while (!stack.empty()) {
+            output.add((char) stack.peek());
+            stack.pop();
         }
+        scanner.close();
+    }
 
-        // closing
-        reader.close();
+    private void checkOperand(char read) {
+        if (read == '+' || read == '-') {
+            if (stack.size() != 0) {
+                if (stack.peek().equals((Character) '*') || stack.peek().equals((Character) '/')) {
+                    moveIntoOutput();
+                    checkOperand(read);
+                } else {
+                    moveIntoOutput();
+                    stack.push(read);
+                }
+            } else {
+                stack.push(read);
+            }
+        } else {
+            if (stack.size() != 0) {
+                if (stack.peek().equals((Character) '*') || stack.peek().equals((Character) '/')) {
+                    moveIntoOutput();
+                }
+            }
+            stack.push(read);
+        }
+    }
+
+    private void moveIntoOutput() {
+        output.add(stack.peek());
+        stack.pop();
+    }
+
+    private boolean isOperand(char c) {
+        if (c == '+' || c == '-' || c == '*' || c == '/') {
+            return true;
+        } else return false;
+    }
+
+    private boolean isFunction(char c) {
+        if (c == 's' || c == 't' || c == 'c') {
+            return true;
+        } else return false;
     }
 
     public static void main(String[] args) throws IOException {
         RPN rpn = new RPN();
-        rpn.calculate();
+        rpn.convert();
+        Iterator iterator = output.iterator();
+        while(iterator.hasNext()){
+            System.out.print((Character) iterator.next());
+        }
     }
 }
