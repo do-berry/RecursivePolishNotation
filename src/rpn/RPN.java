@@ -34,8 +34,8 @@ public class RPN {
                 } else if (isFunction(read)) {
                     stack.push(read);
                     i += 2;
-                } else if (isOperand(read)) {
-                    checkOperand(read);
+                } else if (isOperator(read)) {
+                    checkOperator(read);
                 } else if (read == '(') {               // equals?
                     stack.push(read);
                 } else if (read == ')') {               // right bracket for comparing only -> sth MUST BE on stack
@@ -54,12 +54,12 @@ public class RPN {
         scanner.close();
     }
 
-    private void checkOperand(char read) {
+    private void checkOperator(char read) {
         if (read == '+' || read == '-') {
             if (stack.size() != 0) {
                 if (stack.peek().equals((Character) '*') || stack.peek().equals((Character) '/')) {
                     moveIntoOutput();
-                    checkOperand(read);
+                    checkOperator(read);
                 } else if (stack.peek().equals((Character) '(')) {
                     stack.push(read);
                 } else {
@@ -84,7 +84,7 @@ public class RPN {
         stack.pop();
     }
 
-    private boolean isOperand(char c) {
+    private boolean isOperator(char c) {
         if (c == '+' || c == '-' || c == '*' || c == '/') {
             return true;
         } else return false;
@@ -100,7 +100,7 @@ public class RPN {
         for (char c : output) {
             if (Character.isDigit(c)) {
                 doubleStack.push(Double.parseDouble(String.valueOf(c)));
-            } else if (isOperand(c)) {
+            } else if (isOperator(c)) {
                 double a = doubleStack.peek();
                 doubleStack.pop();
                 double b = doubleStack.peek();
