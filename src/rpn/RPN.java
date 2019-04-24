@@ -34,8 +34,6 @@ public class RPN {
                 } else if (isFunction(read)) {
                     stack.push(read);
                     i += 2;
-                } else if (isOperator(read)) {
-                    checkOperator(read);
                 } else if (read == '(') {               // equals?
                     stack.push(read);
                 } else if (read == ')') {               // right bracket for comparing only -> sth MUST BE on stack
@@ -43,6 +41,11 @@ public class RPN {
                         moveIntoOutput();
                     }
                     stack.pop();
+                    if (isFunction(stack.peek())) {
+                        moveIntoOutput();
+                    }
+                } else if (isOperator(read)) {
+                    checkOperator(read);
                 }
                 i++;
             }
