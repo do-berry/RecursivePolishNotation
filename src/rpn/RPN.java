@@ -14,7 +14,7 @@ public class RPN {
     private static Queue <Character> output = new LinkedList<>();
     private Scanner scanner;
     private static Double result = 0.0;
-    String path = new String("C:/Users/ddolik/Documents/GitHub/onp/src/files/calculations.txt");
+    String path = new String("C:/Users/Dominika/source/repos/RecursivePolishNotation/src/files/1050.txt");
 
     private void convert() throws IOException {
         try {
@@ -25,6 +25,7 @@ public class RPN {
         char read = Character.MIN_VALUE;
         String line;
         while (scanner.hasNext()) {
+            clearEverything();
             line = scanner.next();
             int i = 0;
             while (i < line.length()) {
@@ -34,9 +35,9 @@ public class RPN {
                 } else if (isFunction(read)) {
                     stack.push(read);
                     i += 2;
-                } else if (read == '(') {               // equals?
+                } else if (read == '(') {
                     stack.push(read);
-                } else if (read == ')') {               // right bracket for comparing only -> sth MUST BE on stack
+                } else if (read == ')') {
                     while (!stack.peek().equals((Character) '(')) {
                         moveIntoOutput();
                     }
@@ -49,12 +50,20 @@ public class RPN {
                 }
                 i++;
             }
+            while (!stack.empty()) {
+                output.add((char) stack.peek());
+                stack.pop();
+            }
+            calculate();
         }
-        while (!stack.empty()) {
-            output.add((char) stack.peek());
-            stack.pop();
-        }
+
         scanner.close();
+    }
+
+    private void clearEverything() {
+        stack.clear();
+        output.clear();
+        doubleStack.clear();
     }
 
     private void checkOperator(char read) {
@@ -138,8 +147,8 @@ public class RPN {
     public static void main(String[] args) throws IOException {
         RPN rpn = new RPN();
         rpn.convert();
-        rpn.calculate();
-        print();
+        //rpn.calculate();
+        //print();
     }
 
     private static void print() {
